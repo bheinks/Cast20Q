@@ -115,7 +115,6 @@ if (!chrome.cast || !chrome.cast.isAvailable) {
  * initialization
  */
 function initializeCastApi() {
-  appendMessage('requesting session');
   var sessionRequest = new chrome.cast.SessionRequest(applicationID);
   var apiConfig = new chrome.cast.ApiConfig(sessionRequest,
     sessionListener,
@@ -213,6 +212,7 @@ function sendMessage(message) {
   }
   else {
     chrome.cast.requestSession(function(e) {
+        initializeCastApi();
         session = e;
         session.sendMessage(namespace, message, onSuccess.bind(this, "Message sent: " + message), onError);
         appendMessage("sessionId: " + session.sessionId);
