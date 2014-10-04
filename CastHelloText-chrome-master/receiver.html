@@ -145,6 +145,8 @@ body {
 
 #debug {
   position:absolute;
+  top:0px;
+  left:75px;
   margin:150px auto;
   z-index:10;
   background:white;
@@ -279,7 +281,7 @@ setTimeout(function() {
     <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
     <script type="text/javascript">
       window.onload = function() {
-        var nounUser, qUsers, count=0;
+        var noun_user_index, users = [], count = 0;
 
         cast.receiver.logger.setLevelValue(0);
         window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
@@ -296,12 +298,16 @@ setTimeout(function() {
           appendMessage('Received Sender Connected event: ' + event.data);
           appendMessage(window.castReceiverManager.getSender(event.data).userAgent);
 
-          // if first sender to connect, assign nounUser
-          if(castReceiverManager.getSenders().length == 1) {
-              nounUser = getSender(event.data);
-              appendMessage('nounUser is ' + nounUser);
+          appendMessage('number of senders: ' + window.castReceiverManager.getSenders().length);
+          var sender_id = window.castReceiverManager.getSender(event.data).id;
+
+          // if first sender to connect, assign noun_user_index
+          if(window.castReceiverManager.getSenders().length == 1) {
+              noun_user_index = 0;
           }
-          appendMessage('set nounUser');
+
+          users.push(sender_id);
+          appendMessage('users are ' + users.toString());
         };
         
         // handler for 'senderdisconnected' event
@@ -359,5 +365,11 @@ setTimeout(function() {
         <textarea rows="20" cols="70" id="debugmessage" style="position:absolute; top:0px; left:0px;">
         </textarea>
       </div>
+      <script>
+        setInterval(function() {
+          ta = document.getElementById('debugmessage');
+          ta.scrollTop = ta.scrollHeight;
+        }, 2500);
+      </script>
   </body>
 </html>
