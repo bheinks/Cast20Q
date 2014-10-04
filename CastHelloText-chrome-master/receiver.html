@@ -329,12 +329,15 @@ setTimeout(function() {
         // handler for the CastMessageBus message event
         window.messageBus.onMessage = function(event) {
           appendMessage('Message [' + event.senderId + ']: ' + event.data);
-          // display the message from the sender
-          displayText(event.data);
+          
+          if(count<20){
+            // display the message from the sender
+            displayText(event.data);
 
-          //Add a Question on any message recieved
-          addQ();
-
+            //Add a Question on any message recieved
+            addQ();
+            count++;
+          }
           // inform all senders on the CastMessageBus of the incoming message event
           // sender message listener will be invoked
           window.messageBus.send(event.senderId, event.data + "butt");
