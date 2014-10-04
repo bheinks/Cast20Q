@@ -281,7 +281,7 @@ setTimeout(function() {
     <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
     <script type="text/javascript">
       window.onload = function() {
-        var nounUser, qUsers, count=0;
+        var nounUser, qUsers = [], count = 0;
 
         cast.receiver.logger.setLevelValue(0);
         window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
@@ -298,11 +298,17 @@ setTimeout(function() {
           appendMessage('Received Sender Connected event: ' + event.data);
           appendMessage(window.castReceiverManager.getSender(event.data).userAgent);
 
-          // if first sender to connect, assign nounUser
           appendMessage('number of senders: ' + window.castReceiverManager.getSenders().length);
+          var sender_id = window.castReceiverManager.getSender(event.data).id;
+
+          // if first sender to connect, assign nounUser
           if(window.castReceiverManager.getSenders().length == 1) {
-              nounUser = window.castReceiverManager.getSender(event.data).id;
+              nounUser = sender_id;
               appendMessage('nounUser is ' + nounUser);
+          }
+          else {
+              qUsers.push(sender_id);
+              appendMessage('qUsers are' + qUsers.toString();
           }
         };
         
