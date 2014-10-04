@@ -190,6 +190,58 @@ function update() {
 function transcribe(words) {
   sendMessage(words);
 }
+/*  ---This doensn't work yet ---
+if(nounUser){
+  document.open()
+  document.write(</head>);
+  document.write(<body>);
+    document.write(<table id="wrapper">);
+      document.write(<tr>);
+          document.write(<td>);
+              document.write(Enter a noun);
+          document.write(</td>);
+      document.write(</tr>);
+    document.write(<tr>);
+      document.write(<td>);
+        document.write(<form name = nounForm method="get" action="JavaScript:update();">);
+          document.write(<input id="input" class="border" type="text" size="30" onwebkitspeechchange="transcribe(this.value)" x-webkit-speech/>);
+        document.write(</form>);
+      document.write(</td>);
+    document.write(</tr>);
+    document.write(</table>);
+}
+else if(qUser){
+  document.open()
+  document.write(</head>);
+  document.write(<body>);
+    document.write(<table id="wrapper">);
+      document.write(<tr>);
+          document.write(<td>);
+              document.write(What is your question?);
+          document.write(</td>);
+      document.write(</tr>);
+    document.write(<tr>);
+      document.write(<td>);
+        document.write(<form method="get" action="JavaScript:update();">);
+          document.write(<input id="input" class="border" type="text" size="30" onwebkitspeechchange="transcribe(this.value)" x-webkit-speech/>);
+        document.write(</form>);
+      document.write(</td>);
+    document.write(</tr>);
+    document.write(</table>);
+}
+else
+  document.write(Error: qUser and nounUser are false);
+
+  document.write(<!-- Debbugging output -->);
+  document.write(<div style="margin:10px;">);
+    document.write(<textarea rows="20" cols="70" id="debugmessage">);
+    document.write(</textarea>);
+  document.write(</div>);
+  document.close();
+
+  document.getElementById("input").focus();
+
+*/
 </script>
 </head>
 <body>
