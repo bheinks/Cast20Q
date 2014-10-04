@@ -160,7 +160,6 @@ function sendMessage(message) {
   else {
     chrome.cast.requestSession(function(e) {
         session = e;
-        initializeCastApi();
         session.sendMessage(namespace, message, onSuccess.bind(this, "Message sent: " + message), onError);
       }, onError);
   }
