@@ -161,6 +161,7 @@ function sendMessage(message) {
     chrome.cast.requestSession(function(e) {
         session = e;
         session.sendMessage(namespace, message, onSuccess.bind(this, "Message sent: " + message), onError);
+        appendMessage("sessionId: " + session.sessionId);
       }, onError);
   }
 }
