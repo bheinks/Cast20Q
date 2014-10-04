@@ -238,18 +238,6 @@ function answer(ans)
 
 
 /*Just some quick testing*/
-setTimeout(function() {
-  addPlayer("mike");
-}, 1000);
-setTimeout(function() {
-  addPlayer("mike");
-}, 1200);
-setTimeout(function() {
-  addPlayer("mike");
-}, 1400);
-setTimeout(function() {
-  addPlayer("mike");
-}, 1600);
 
 setTimeout(function() {
   activePlayer(3)
@@ -318,6 +306,7 @@ setTimeout(function() {
 
           users.push(sender_id);
           appendMessage('users are ' + users.toString());
+          addPlayer(window.castReceiverManager.getSender(event.data).id);
         };
         
         // handler for 'senderdisconnected' event
