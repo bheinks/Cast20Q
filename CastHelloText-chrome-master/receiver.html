@@ -299,11 +299,11 @@ setTimeout(function() {
           appendMessage(window.castReceiverManager.getSender(event.data).userAgent);
 
           // if first sender to connect, assign nounUser
-          if(castReceiverManager.getSenders().length === 1) {
+          appendMessage('number of senders: ' + window.castReceiverManager.getSenders().length);
+          if(window.castReceiverManager.getSenders().length === 1) {
               nounUser = getSender(event.data);
               appendMessage('nounUser is ' + nounUser);
           }
-          appendMessage('number of senders: ' + castReceiverManager.getSenders().length);
         };
         
         // handler for 'senderdisconnected' event
