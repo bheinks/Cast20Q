@@ -216,6 +216,7 @@ function sendMessage(message) {
         session = e;
         session.sendMessage(namespace, message, onSuccess.bind(this, "Message sent: " + message), onError);
         appendMessage("sessionId: " + session.sessionId);
+        appendMessage("are you even listening?");
       }, onError);
   }
 }
