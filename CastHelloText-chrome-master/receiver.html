@@ -300,8 +300,8 @@ setTimeout(function() {
 
           // if first sender to connect, assign nounUser
           appendMessage('number of senders: ' + window.castReceiverManager.getSenders().length);
-          if(window.castReceiverManager.getSenders().length === 1) {
-              nounUser = getSender(event.data);
+          if(window.castReceiverManager.getSenders().length == 1) {
+              nounUser = window.castReceiverManager.getSender(event.data);
               appendMessage('nounUser is ' + nounUser);
           }
         };
