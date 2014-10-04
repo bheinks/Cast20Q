@@ -361,5 +361,11 @@ setTimeout(function() {
         <textarea rows="20" cols="70" id="debugmessage" style="position:absolute; top:0px; left:0px;">
         </textarea>
       </div>
+      <script>
+        setInterval(function() {
+          ta = document.getElementById('debugmessage');
+          ta.scrollTop = ta.scrollHeight;
+        }, 2500);
+      </script>
   </body>
 </html>
