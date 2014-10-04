@@ -20,24 +20,249 @@ limitations under the License.
 	  body {
 	    overflow:hidden;
 	  }
-      div{
-	    height:720PX;
-	    width:1280PX;
-	    text-align:center;
-	    border:0px solid silver;
-	    display: table-cell;
-	    vertical-align:middle;
-	    color:#FFFFFF;
-	    background-color:#000000;
-	    font-weight:bold;
-	    font-family:Verdana, Geneva, sans-serif;
-	    font-size:40px;
-	}
+    @import url(http://fonts.googleapis.com/css?family=Roboto:400,500);
+
+body {
+  padding:0px;
+  margin:0px;
+}
+#header {
+  position:relative;
+  z-index:2;
+  display:block;
+  margin:0;
+  padding:0;
+  font-spacing:0;
+  height:80px;
+}
+#bar {
+  display:block;
+  margin:0;
+  height:24px;
+  background:#039be5;
+  position:relative;
+}
+#title {
+  font-family:'Roboto';
+  background:#03a9f4;
+  font-size:20px;
+  padding:15px;
+  font-weight:500;
+  color:white;
+}
+
+#FAB {
+  font-family:'Roboto';
+  font-size:24px;
+  padding:15px 23px;
+  position:absolute;
+  top:48px;
+  right:24px;
+  background:white;
+  border-radius:50%;
+  box-shadow:0px 0px 2px 0px rgba(0,0,0,.6), 0px 2px 2px 0px rgba(0,0,0,.4);
+  z-index:5;
+  cursor:pointer;
+}
+
+#wrapper {
+  display:block;
+  width:80%;
+  height:60vh;
+  margin:0 auto;
+  position:relative;
+  overflow:hidden;
+}
+#questions {
+  position:absolute;
+  bottom:0;
+  width:100%;
+}
+
+.question {
+  font-family:'Roboto';
+  padding:15px 15px;
+  margin-top:5px;
+  border-top:1px solid #b3e5fc;
+  border-bottom:1px solid #b3e5fc;
+  transition:1s;
+}
+
+.answer {
+  float:right;
+}
+
+.yes {
+  background:#c5e1a5;
+}
+.no {
+  background:#ffccbc;
+}
+.unknown {
+  background:#e0e0e0;
+}
+.sometimes {
+  background:#ffe082;
+}
+
+#players {
+  position:absolute;
+  left:10%;
+  bottom:5%;
+  display:flex;
+  width:80%;
+  margin:0 auto;
+}
+.player {
+  font-family:'Roboto';
+  flex-grow:1;
+  padding:5px 0px;
+  margin:0% 2.5%;
+  text-align:center;
+  transition:.15s;
+}
+.player .score {
+  display:block;
+}
+
+.player.active {
+  background:#b3e5fc;
+  transition:.45s;
+}
+
+.Finalanswer {
+  font-family:'Roboto';
+  padding:15px 15px;
+  margin-top:5px;
+  border-top:1px solid #b3e5fc;
+  border-bottom:1px solid #b3e5fc;
+  text-align:center;
+}
     </style>
     <title>Cast Hello Text</title>
+    <script>
+    var numQs = 0;
+var numPs = 0;
+var activeP = 1;
+var Pscores = [0];
+
+function addQ() {
+  numQs++;
+  
+  
+  if (numQs >= 1 && numQs <= 20) {
+    document.getElementById("questions").innerHTML += '<div class="question" id="Q' + numQs + '">'+numQs+'.   Is it fluffy?<div id="Q' + numQs + 'a" class="answer"></div></div>';
+    
+    var rand = Math.floor((Math.random() * 4) + 1);
+    
+    answer(rand);
+  }
+  if (numQs > 20)
+    {
+      Finalanswer("Poro!");
+    }
+  
+}
+
+function addPlayer(name) {
+  numPs++;
+  Pscores[numPs] = 0;
+  document.getElementById("players").innerHTML += '<div id="P' + numPs + '" class="player">' + name + '<span class="score" id="P' + numPs +'score">' + Pscores[numPs] +'</span></div>';
+}
+
+function activePlayer(number) {
+  document.getElementById('P' + number).className += ' active';
+  document.getElementById('P' + activeP).className = 'player';
+  activeP = number;
+}
+
+function updateScore(player) {
+  Pscores[player]++;
+  document.getElementById('P' + player + 'score').innerHTML = Pscores[player];
+}
+
+function Finalanswer(thing) {
+  document.getElementById("questions").innerHTML += '<div class="Finalanswer">' + thing + '</div>';
+}
+
+function answer(ans)
+{
+    if (ans == 1)
+      {
+        document.getElementById('Q' + (numQs-1)).className += " yes";
+        document.getElementById('Q' + (numQs-1) + 'a').innerHTML = "Yes";
+      }
+    else if (ans == 2)
+      {
+        document.getElementById('Q' + (numQs-1)).className += " no";
+        document.getElementById('Q' + (numQs-1) + 'a').innerHTML = "No";
+      }
+    else if (ans == 3)
+      {
+        document.getElementById('Q' + (numQs-1)).className += " unknown";
+        document.getElementById('Q' + (numQs-1) + 'a').innerHTML = "Unknown";
+      }
+    else if (ans == 4)
+      {
+        document.getElementById('Q' + (numQs-1)).className += " sometimes";
+        document.getElementById('Q' + (numQs-1) + 'a').innerHTML = "Sometimes";
+      }
+}
+
+
+
+
+/*Just some quick testing*/
+setTimeout(function() {
+  addPlayer("mike");
+}, 1000);
+setTimeout(function() {
+  addPlayer("mike");
+}, 1200);
+setTimeout(function() {
+  addPlayer("mike");
+}, 1400);
+setTimeout(function() {
+  addPlayer("mike");
+}, 1600);
+
+setTimeout(function() {
+  activePlayer(3)
+}, 1800)
+setTimeout(function() {
+  activePlayer(1)
+}, 2000)
+setTimeout(function() {
+  activePlayer(4)
+}, 2200)
+
+setTimeout(function() {
+  updateScore(2)
+}, 2200)
+setTimeout(function() {
+  updateScore(2)
+}, 2300)
+
+    </script>
   </head>
   <body>
-	<DIV id="message">Talk to me</DIV>
+	
+  <div id="header">
+  <div id="bar"></div>
+  <div id="title">Cast 20 Q's</div>
+</div>
+<div id="FAB" onclick="addQ()">+</div>
+
+<div id="wrapper">
+  <div id="questions">
+  </div>
+</div>
+
+<div id="players">
+</div>
+
+
+
     <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
     <script type="text/javascript">
       window.onload = function() {
@@ -104,7 +329,7 @@ limitations under the License.
       };
     </script>
       <!-- Debbugging output -->
-      <div style="margin:10px;">
+      <div style="margin:10px; visibility:hidden;">
         <textarea rows="20" cols="70" id="debugmessage">
         </textarea>
       </div>
