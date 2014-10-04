@@ -302,6 +302,7 @@ setTimeout(function() {
               appendMessage('nounUser is ' + nounUser);
           }
           appendMessage('set nounUser');
+          window.castReceiverManager.setApplicationState("nounUser: " + nounUser);
         };
         
         // handler for 'senderdisconnected' event
