@@ -17,6 +17,7 @@ limitations under the License.
 <html>
 <head>
 <title>Cast 20Q</title>
+<link href="http://roboto-webfont.googlecode.com/svn/trunk/roboto.all.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 html, body, #wrapper {
    height: 80%;
@@ -25,24 +26,62 @@ html, body, #wrapper {
    padding: 0;
    border: 0;
 }
+
+#header {
+  position:relative;
+  z-index:2;
+  display:block;
+  width:100%;
+  margin:0 auto;
+  padding:0;
+  height:80px;
+}
+
+#bar {
+  display:block;
+  margin:0;
+  height:24px;
+  background:#039be5;
+  position:relative;
+}
+
+#title {
+  font-family:'Roboto';
+  background:#03a9f4;
+  font-size:20px;
+  padding:15px;
+  font-weight:500;
+  color:white;
+}
+
+
 #wrapper td {
    vertical-align: middle;
    text-align: center;
 }
 input {
-  font-family: "Arial", Arial, sans-serif;
+  font-family: 'Roboto';
   font-size: 40px;
   font-weight: bold;	
 }
+
+td {
+  font-family: 'Roboto';
+  font-size: 24pt;
+  font-weight: bold;
+}
+
 .border {
     border: 2px solid #cccccc;
-    border-radius: 5px;
+    border-r;
+    box-shadow: 0px 0px 3px 4px #cccccc;
 }
 .border:focus { 
     outline: none;
-    border-color: #8ecaed;
-    box-shadow: 0 0 5px #8ecaed;
+    border-color: #ffffff;
+    box-shadow: 0px 0px 2px 3px #cccccc;
 }
+
 </style>
 <script type="text/javascript" src="//www.gstatic.com/cv/js/sender/v1/cast_sender.js"></script>
 <script type="text/javascript">
@@ -190,7 +229,7 @@ function update() {
 function transcribe(words) {
   sendMessage(words);
 }
-/*  ---This doensn't work yet ---
+/*  ---Doensn't work---
 if(nounUser){
   document.open()
   document.write(</head>);
@@ -245,6 +284,10 @@ else
 </script>
 </head>
 <body>
+  <div id="header">
+  <div id="bar"></div>
+  <div id="title"> Cast 20 Q's </div>
+
   <table id="wrapper">
     <tr>
         <td>
