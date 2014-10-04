@@ -299,7 +299,7 @@ setTimeout(function() {
           appendMessage(window.castReceiverManager.getSender(event.data).userAgent);
 
           // if first sender to connect, assign nounUser
-          if(castReceiverManager.getSenders().length == 1) {
+          if(castReceiverManager.getSenders().length === 1) {
               nounUser = getSender(event.data);
               appendMessage('nounUser is ' + nounUser);
           }
