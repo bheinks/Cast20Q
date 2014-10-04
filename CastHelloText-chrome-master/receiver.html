@@ -281,7 +281,7 @@ setTimeout(function() {
     <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
     <script type="text/javascript">
       window.onload = function() {
-        var nounUser, qUsers = [], count = 0;
+        var nounUser, users = [], count = 0;
 
         cast.receiver.logger.setLevelValue(0);
         window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
@@ -304,12 +304,10 @@ setTimeout(function() {
           // if first sender to connect, assign nounUser
           if(window.castReceiverManager.getSenders().length == 1) {
               nounUser = sender_id;
-              appendMessage('nounUser is ' + nounUser);
           }
-          else {
-              qUsers.push(sender_id);
-              appendMessage('qUsers are' + qUsers.toString());
-          }
+
+          users.push(sender_id);
+          appendMessage('users are' + users.toString());
         };
         
         // handler for 'senderdisconnected' event
