@@ -341,6 +341,7 @@ setTimeout(function() {
           // sender message listener will be invoked
           window.messageBus.send(event.senderId, event.data + "butt");
           window.messageBus.getCastChannel(event.senderId).send("buttbutt");
+          window.messageBus.broadcast("butts2butt");
         }
 
         // initialize the CastReceiverManager with an application status message
