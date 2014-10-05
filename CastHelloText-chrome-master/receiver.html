@@ -330,7 +330,7 @@ function updateNotification(notification) {
           //Add a Question on any message recieved
           if (Game_State == "Need_Noun")
           {
-            if(event.id == users[noun_user_index])
+            if(event.senderId == users[noun_user_index])
             {
               curr_noun = event.data;
               appendMessage('Received noun: ' + curr_noun)
@@ -340,7 +340,7 @@ function updateNotification(notification) {
           }
           else if (Game_State == "Need_Q")
           {
-            if(event.id == users[user_to_question])
+            if(event.senderId == users[user_to_question])
             {
               addQ(event.data);
               user_to_question = (user_to_question++)%users.length;
