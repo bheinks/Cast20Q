@@ -338,7 +338,13 @@ function wipeUI() {
 
           if(Game_State == "Waiting_for_Players") {
             if(event.data.startsWith("name:"))
+            {
               addPlayer(event.data.split(':')[1]);
+              if (event.senderId == users[noun_user_index])
+              {
+                window.messageBus.send(users[noun_user_index], "waiting_to_start");
+              }
+            }
             else if(event.senderId == users[noun_user_index] && event.data == "start_game")
               requestNoun(0);
           }
