@@ -354,8 +354,16 @@ function updateNotification(notification) {
             {
               /*Update question answer here*/
               answer(event.data);
-              updateNotification("Need question from " + users[user_to_question]);
-              Game_State = "Need_Q";
+              if (numQs < 20)
+              {
+                updateNotification("Need question from " + users[user_to_question]);
+                Game_State = "Need_Q";
+              }
+              else
+              {
+                Game_State = "Need_Final_Answer";
+                updateNotification("Everyone submit Final Answers!!");
+              }
             }
           }
 
