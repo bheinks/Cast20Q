@@ -164,6 +164,7 @@ body {
 
 #welcome {
   font-size: 50px;
+  text-align: center;
 }
 
 
@@ -348,8 +349,15 @@ function wipeUI() {
                   window.messageBus.send(event.senderId, "waiting_to_start");
                 }
             }
-            else if(event.senderId == users[noun_user_index] && event.data == "start_game")
+            else if(event.senderId == users[noun_user_index] && event.data == "start_game") {
               requestNoun(0);
+
+              for(var i = 0; i < users.length; ++i) {
+                if(users[i] == users[noun_user_index])
+                    window.messageBus.send(users[i], "waiting_for_answer");
+                else
+                    window.messageBus.send(users[i], "waiting_for_question");
+              }
           }
           else if (Game_State == "Need_Noun")
           {
