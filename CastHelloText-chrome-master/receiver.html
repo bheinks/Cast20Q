@@ -266,7 +266,8 @@ function wipeUI() {
     <script type="text/javascript">
       var curr_noun = '';
       var user_to_question = 1;
-      var noun_user_index, users = [], count = 0;
+      var noun_user_index = 0;
+      var users = [];
       var final_answers = [];
       var Game_State = 'Initialized';
 
@@ -287,21 +288,11 @@ function wipeUI() {
           appendMessage('Received Sender Connected event: ' + event.data);
           appendMessage(window.castReceiverManager.getSender(event.data).userAgent);
 
-          appendMessage('number of senders: ' + window.castReceiverManager.getSenders().length);
-          var sender_id = window.castReceiverManager.getSender(event.data).id;
-
-          users.push(sender_id);
-
-          // if first sender to connect, assign noun_user_index
           if(window.castReceiverManager.getSenders().length == 1) {
-              noun_user_index = 0;
               Game_State = "Waiting_for_Players";
               updateNotification("Waiting for players...");
               document.getElementById("questions").innerHTML += '<div class="question" id="welcome">Welcome to Cast 20Q</div>';
           }
-
-          appendMessage('users are ' + users.toString());
-          //addPlayer(window.castReceiverManager.getSender(event.data).id);
         };
         
         // handler for 'senderdisconnected' event
@@ -337,8 +328,14 @@ function wipeUI() {
           //Add a Question on any message recieved
 
           if(Game_State == "Waiting_for_Players") {
-            if(event.data.startsWith("name:"))
-              addPlayer(event.data.split(':')[1]);
+            if(event.data.charAt(0) == '~')) {
+              var name = event.data.split(':')[1];
+
+              if(users.indexOf(name) < 0) {
+                  addPlayer(.data.split(':')[1]);
+                  users.push(event.senderId);
+              }
+            }
             else if(event.senderId == users[noun_user_index] && event.data == "start_game")
               requestNoun(0);
           }
