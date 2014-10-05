@@ -198,7 +198,7 @@ function activePlayer(playerNum) {
 }
 
 function updateScore(player) {
-  appendMessage("updating score of " + users[player]);
+  appendMessage("updating score of " + users[player - 1]);
   Pscores[player]++;
   document.getElementById('P' + player + 'score').innerHTML = Pscores[player];
 }
@@ -391,7 +391,7 @@ function wipeUI() {
                   Game_State = "Answers_Submitted";
           }
 
-          else if(Game_State == "Answers_Submitted") {
+          if(Game_State == "Answers_Submitted") {
               appendMessage("final_answers: " + final_answers.toString());
               for(var i = 0; i < final_answers.length; ++i)
                   if(final_answers[i] == curr_noun) { // winner found
@@ -437,6 +437,7 @@ function wipeUI() {
 
       function all_answered() {
           appendMessage("all_answered? " + final_answers.toString());
+          appendMessage(final_answers.every(function(answer) { return answer != null; }));
           return final_answers.every(function(answer) { return answer != null; })
       }
 
