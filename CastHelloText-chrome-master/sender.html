@@ -38,6 +38,7 @@ html, body {
 
 table {
   margin: 0 auto;
+  margin-top:50px;
 }
 #header {
   position:relative;
@@ -105,6 +106,7 @@ input, textarea{
   font-weight: 600;
   background-color: #fff;
   color: #646464;
+  cursor:pointer;
 }
     
 .button > paper-ripple {
@@ -266,6 +268,10 @@ function receiverMessage(namespace, message) {
   {
     answerPrompt();
   }
+  else if (message == "waiting_for_final_answer")
+  {
+    finalAnswerPrompt();
+  }
 };
 
 /**
@@ -373,7 +379,7 @@ function sendNoun() {
 
 function questionPrompt() {
   var questionHTML = 
-  '<div class = "prompttd">Enter question:</div></td></tr><tr><td><form method="get" action="JavaScript:sendQuestion();"><input id="input" class="border" type="text" size="30" onwebkitspeechchange="transcribe(this.value)" x-webkit-speech/>';
+  '<table><tr><td><div class = "prompttd">Enter question:</div></td></tr><tr><td><form method="get" action="JavaScript:sendQuestion();"><input id="input" class="border" type="text" size="30" onwebkitspeechchange="transcribe(this.value)" x-webkit-speech/></form></td></tr></table>';
   document.getElementById('wrapper').innerHTML = questionHTML;
 }
 function sendQuestion() {
@@ -381,10 +387,16 @@ function sendQuestion() {
   sendMessage(document.getElementById("input").value);
 }
 
+function finalAnswerPrompt() {
+  var questionHTML = 
+  '<table><tr><td><div class = "prompttd">Enter your Final Answer</div></td></tr><tr><td><form method="get" action="JavaScript:sendQuestion();"><input id="input" class="border" type="text" size="30" onwebkitspeechchange="transcribe(this.value)" x-webkit-speech/></form></td></tr></table>';
+  document.getElementById('wrapper').innerHTML = questionHTML;
+}
+
 
 
 function answerPrompt() {
-var answerHTML ='<table><tr><td><div class = "prompttd">Answer questions on casted screen:</div></td></tr><tr><td><div class="button raised yes" onclick="sendYes()"><div class="center">Yes</div></div><div class="button raised no" onclick="sendNo()"><div class="center">No</div></div><div class="button raised unknown" onclick="sendUnknown()"><div class="center">Unknown</div></div><div class="button raised sometimes" onclick="sendMaybe()"><div class="center">Sometimes</div></div></td></tr></table>';
+var answerHTML ='<table><tr><td><div class = "prompttd">Answer questions on casted screen:</div></td></tr><tr><td><div class="button raised yes" onclick="sendYes()"><div class="center">Yes</div></div><div class="button raised no" onclick="sendNo()"><div class="center">No</div></div><div class="button raised sometimes" onclick="sendMaybe()"><div class="center">Sometimes</div></div><div class="button raised unknown" onclick="sendUnknown()"><div class="center">Unknown</div></div></td></tr></table>';
   document.getElementById('wrapper').innerHTML = answerHTML;
 }
 function sendYes() {sendMessage("1");}
@@ -398,7 +410,7 @@ function waitingPrompt() {
 }
 
 function startGamePrompt() {
-  var html = '<table><tr>Press this button when all players have connected</tr><tr><div style="display:inline-block; padding:25px 50px; border-radius:2px; background:#b3e5fc; cursor:pointer;" onclick="startGame()"}>Start Game</div></tr></table>';
+  var html = '<table><tr>Press this button when all players have connected</tr><tr><td><div style="display:block; padding:25px 50px; border-radius:10px; background:#b3e5fc; cursor:pointer; text-align:center;" onclick="startGame()"}>Start Game</div></td></tr></table>';
 
   document.getElementById('wrapper').innerHTML = html;
 }
