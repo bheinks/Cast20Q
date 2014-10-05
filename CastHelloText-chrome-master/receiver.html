@@ -261,9 +261,13 @@ function updateNotification(notification) {
 
     <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
     <script type="text/javascript">
+    var curr_noun = '';
+    var user_to_question = 0;
+
       window.onload = function() {
         var noun_user_index, users = [], count = 0;
         var Game_State = 'Initialized';
+        updateNotification("Initializing...");
 
         cast.receiver.logger.setLevelValue(0);
         window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
@@ -322,8 +326,29 @@ function updateNotification(notification) {
           displayText(event.data);
 
           //Add a Question on any message recieved
-          if (Game_State != "Need_Noun")
-            addQ(event.data);
+          if (Game_State == "Need_Noun")
+          {
+            if(event.id == users[noun_user_index])
+            {
+              curr_noun = event.data;
+              Game_State = "Need_Q";
+              updateNotification("Need question from " + users[user_to_question]);
+            }
+          }
+          else if (Game_State == "Need_Q")
+          {
+            if(event.id == users[user_to_question])
+            {
+              addQ(event.data);
+              user_to_question = (user_to_question++)%users.length;
+              if (user_to_question == noun_user_index)
+              {
+                user_to_question = (user_to_question++)%users.length;
+              }
+              updateNotification("Need question from " + users[user_to_question]);
+            }
+          }
+
 
           // inform all senders on the CastMessageBus of the incoming message event
           // sender message listener will be invoked
@@ -353,6 +378,10 @@ function updateNotification(notification) {
         Game_State = "Need_Noun";
         window.messageBus.send(users[userNum], "Need_Noun");
         updateNotification("Waiting for Noun from " + users[userNum]);
+      };
+
+      function getQ(userID) {
+
       };
     </script>
       <!-- Debbugging output -->
