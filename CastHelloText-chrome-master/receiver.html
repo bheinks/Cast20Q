@@ -210,23 +210,23 @@ function answer(ans)
 {
     if (ans == '1')
       {
-        document.getElementById('Q' + (numQs-1)).className += " yes";
-        document.getElementById('Q' + (numQs-1) + 'a').innerHTML = "Yes";
+        document.getElementById('Q' + (numQs)).className += " yes";
+        document.getElementById('Q' + (numQs) + 'a').innerHTML = "Yes";
       }
     else if (ans == '2')
       {
-        document.getElementById('Q' + (numQs-1)).className += " no";
-        document.getElementById('Q' + (numQs-1) + 'a').innerHTML = "No";
+        document.getElementById('Q' + (numQs)).className += " no";
+        document.getElementById('Q' + (numQs) + 'a').innerHTML = "No";
       }
     else if (ans == '3')
       {
-        document.getElementById('Q' + (numQs-1)).className += " unknown";
-        document.getElementById('Q' + (numQs-1) + 'a').innerHTML = "Unknown";
+        document.getElementById('Q' + (numQs)).className += " unknown";
+        document.getElementById('Q' + (numQs) + 'a').innerHTML = "Unknown";
       }
     else if (ans == '4')
       {
-        document.getElementById('Q' + (numQs-1)).className += " sometimes";
-        document.getElementById('Q' + (numQs-1) + 'a').innerHTML = "Sometimes";
+        document.getElementById('Q' + (numQs)).className += " sometimes";
+        document.getElementById('Q' + (numQs) + 'a').innerHTML = "Sometimes";
       }
 }
 
