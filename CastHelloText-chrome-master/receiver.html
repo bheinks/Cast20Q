@@ -243,7 +243,6 @@ function updateNotification(notification) {
 function wipeUI() {
   document.getElementById("questions").innerHTML = "";
   numQs = 0;
-  user_to_question = (noun_user_index +1)%users.length;
 }
 
 
@@ -437,7 +436,7 @@ function wipeUI() {
                   }
               
               wipeUI();
-              document.getElementById("questions").innerHTML += '<div class="question" id="welcome">Previous Answer: ' + curr_noun + '</div>';
+              document.getElementById("questions").innerHTML += '<div class="question" id="welcome">Answer: ' + curr_noun + '</div>';
 
               Game_State = "Need_Noun";
               noun_user_index = (noun_user_index+1) % users.length;
