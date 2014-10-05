@@ -368,7 +368,7 @@ function wipeUI() {
               curr_noun = event.data;
               appendMessage('Received noun: ' + curr_noun)
               Game_State = "Need_Q";
-              updateNotification("Need question from " + users[user_to_question]);
+              updateNotification("Need question from " + nicknames[user_to_question]);
             }
           }
           else if (Game_State == "Need_Q")
