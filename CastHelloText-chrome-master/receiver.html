@@ -171,12 +171,12 @@ var numPs = 0;
 var activeP = 1;
 var Pscores = [0];
 
-function addQ() {
+function addQ(question) {
   numQs++;
   
   
   if (numQs >= 1 && numQs <= 20) {
-    document.getElementById("questions").innerHTML += '<div class="question" id="Q' + numQs + '">'+numQs+'.   Is it fluffy?<div id="Q' + numQs + 'a" class="answer"></div></div>';
+    document.getElementById("questions").innerHTML += '<div class="question" id="Q' + numQs + '">'+numQs+'.   '+question+'<div id="Q' + numQs + 'a" class="answer"></div></div>';
     
     var rand = Math.floor((Math.random() * 4) + 1);
     
@@ -234,27 +234,10 @@ function answer(ans)
       }
 }
 
+function updateNotification(notification) {
+  document.getElementById("notification").innerHTML = notification;
+}
 
-
-
-/*Just some quick testing*/
-
-setTimeout(function() {
-  activePlayer(3)
-}, 1800)
-setTimeout(function() {
-  activePlayer(1)
-}, 2000)
-setTimeout(function() {
-  activePlayer(4)
-}, 2200)
-
-setTimeout(function() {
-  updateScore(2)
-}, 2200)
-setTimeout(function() {
-  updateScore(2)
-}, 2300)
 
     </script>
   </head>
@@ -262,7 +245,7 @@ setTimeout(function() {
 	
   <div id="header">
   <div id="bar"></div>
-  <div id="title">Cast 20 Q's<span id="notification">Initial Notification</span></div>
+  <div id="title">Cast 20 Q's<span id="notification">Waiting for a noun from Player 1</span></div>
 </div>
 <div id="FAB" onclick="addQ()">+</div>
 
@@ -280,6 +263,7 @@ setTimeout(function() {
     <script type="text/javascript">
       window.onload = function() {
         var noun_user_index, users = [], count = 0;
+        var Game_State = 'Initialized';
 
         cast.receiver.logger.setLevelValue(0);
         window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
@@ -302,6 +286,9 @@ setTimeout(function() {
           // if first sender to connect, assign noun_user_index
           if(window.castReceiverManager.getSenders().length == 1) {
               noun_user_index = 0;
+
+              //Need logic here to push message to first user requesting a noun
+              requestNoun(0);
           }
 
           users.push(sender_id);
@@ -335,7 +322,8 @@ setTimeout(function() {
           displayText(event.data);
 
           //Add a Question on any message recieved
-          addQ();
+          if (Game_State != "Need_Noun")
+            addQ(event.data);
 
           // inform all senders on the CastMessageBus of the incoming message event
           // sender message listener will be invoked
@@ -360,6 +348,12 @@ setTimeout(function() {
         var dw = document.getElementById("debugmessage");
         dw.innerHTML += '\n' + JSON.stringify(message);
       };
+
+      function requestNoun(userNum) {
+        Game_State = "Need_Noun";
+        window.messageBus.send(users[userNum], "Need_Noun");
+        updateNotification("Waiting for Noun from " + users[userNum]);
+      };
     </script>
       <!-- Debbugging output -->
       <div id="debug">
@@ -367,6 +361,7 @@ setTimeout(function() {
         </textarea>
       </div>
       <script>
+        //To autoscroll the debug box - delete when debug box is removed
         setInterval(function() {
           ta = document.getElementById('debugmessage');
           ta.scrollTop = ta.scrollHeight;
