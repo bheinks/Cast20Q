@@ -321,8 +321,10 @@ function wipeUI() {
 
         // handler for the CastMessageBus message event
         window.messageBus.onMessage = function(event) {
-          if(event.data == "fart")
-              document.getElementById('fart').play();
+          if(event.data == "fart") {
+            document.getElementById('fart').play();
+            return;
+          }
 
           appendMessage('Message [' + event.senderId + ']: ' + event.data);
           // display the message from the sender
