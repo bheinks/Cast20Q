@@ -364,13 +364,6 @@ function updateNotification(notification) {
               }
             }
           }
-<<<<<<< HEAD
-          else if (Game_State == "Need_Final_Answer")
-          {
-
-          }
-
-=======
           else if(Game_State == "Need_Final_Answer") {
               for(int = 0; i < users.length; ++i)
                   // if user hasn't already answered
@@ -387,7 +380,6 @@ function updateNotification(notification) {
                       break;
                   }
           }
->>>>>>> origin/master
 
           // inform all senders on the CastMessageBus of the incoming message event
           // sender message listener will be invoked
