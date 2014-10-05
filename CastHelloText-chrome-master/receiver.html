@@ -288,6 +288,8 @@ function updateNotification(notification) {
           appendMessage('number of senders: ' + window.castReceiverManager.getSenders().length);
           var sender_id = window.castReceiverManager.getSender(event.data).id;
 
+          users.push(sender_id);
+
           // if first sender to connect, assign noun_user_index
           if(window.castReceiverManager.getSenders().length == 1) {
               noun_user_index = 0;
@@ -296,7 +298,6 @@ function updateNotification(notification) {
               requestNoun(0);
           }
 
-          users.push(sender_id);
           appendMessage('users are ' + users.toString());
           addPlayer(window.castReceiverManager.getSender(event.data).id);
         };
