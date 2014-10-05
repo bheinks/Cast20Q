@@ -381,8 +381,11 @@ function updateNotification(notification) {
               for(var i = 0; i < final_answers; ++i)
                   if(final_answers[i] == curr_noun) { // winner found
                       updateScore(i);
-                      break;
                   }
+
+              Game_State = "Need_Noun";
+              noun_user_index = (noun_user_index++) % users.length;
+              updateNotification("Waiting for Noun from " + users[noun_user_index]);
           }
 
           // inform all senders on the CastMessageBus of the incoming message event
