@@ -342,12 +342,12 @@ function wipeUI() {
             {
               addQ(event.data);
               appendMessage("User to question before inc:" + user_to_question);
-              user_to_question = (user_to_question++)%users.length;
+              user_to_question = (user_to_question+1)%users.length;
               appendMessage("User to question after inc:" + user_to_question);
               if (user_to_question == noun_user_index)
               {
 
-                user_to_question = (user_to_question++)%users.length;
+                user_to_question = (user_to_question+1)%users.length;
                 appendMessage("User to question hit noun user:" + user_to_question);
               }
               updateNotification("Need answer from " + users[noun_user_index]);
@@ -398,7 +398,7 @@ function wipeUI() {
                   }
               wipeUI();
               Game_State = "Need_Noun";
-              noun_user_index = (noun_user_index++) % users.length;
+              noun_user_index = (noun_user_index+1) % users.length;
               updateNotification("Waiting for Noun from " + users[noun_user_index]);
           }
 
