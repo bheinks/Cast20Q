@@ -435,6 +435,7 @@ function wipeUI() {
               Game_State = "Need_Noun";
               noun_user_index = (noun_user_index+1) % users.length;
               updateNotification("Waiting for noun from " + nicknames[noun_user_index]);
+              window.messageBus.send(users[noun_user_index], "waiting_for_noun");
               wipeUI();
           }
 
