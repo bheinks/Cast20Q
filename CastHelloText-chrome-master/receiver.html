@@ -437,13 +437,12 @@ function wipeUI() {
                   }
               
               wipeUI();
-              document.getElementById("questions").innerHTML += '<div class="question" id="welcome">Answer: ' + curr_noun + '</div>';
+              document.getElementById("questions").innerHTML += '<div class="question" id="welcome">Previous Answer: ' + curr_noun + '</div>';
 
               Game_State = "Need_Noun";
               noun_user_index = (noun_user_index+1) % users.length;
               updateNotification("Waiting for noun from " + nicknames[noun_user_index]);
               window.messageBus.send(users[noun_user_index], "waiting_for_noun");
-              wipeUI();
           }
 
           // inform all senders on the CastMessageBus of the incoming message event
