@@ -234,6 +234,12 @@ function updateNotification(notification) {
   document.getElementById("notification").innerHTML = notification;
 }
 
+function wipeUI() {
+  document.getElementById("questions").innerHTML = "";
+  numQs = 0;
+  user_to_question = (noun_user_index +1)%users.length;
+}
+
 
     </script>
   </head>
@@ -336,10 +342,14 @@ function updateNotification(notification) {
             if(event.senderId == users[user_to_question])
             {
               addQ(event.data);
-              user_to_question = (user_to_question++)%users.length;
+              appendMessage("User to question before inc:" + user_to_question);
+              user_to_question = (user_to_question+1)%users.length;
+              appendMessage("User to question after inc:" + user_to_question);
               if (user_to_question == noun_user_index)
               {
-                user_to_question = (user_to_question++)%users.length;
+
+                user_to_question = (user_to_question+1)%users.length;
+                appendMessage("User to question hit noun user:" + user_to_question);
               }
               updateNotification("Need answer from " + users[noun_user_index]);
               Game_State = "Need_Answer";
@@ -364,6 +374,7 @@ function updateNotification(notification) {
                 // initialize all to null
                 for(var i = 0; i < users.length; i++)
                     final_answers[i] = null;
+                final_answers[noun_user_index] = '-1';
               }
             }
           }
@@ -384,12 +395,13 @@ function updateNotification(notification) {
               appendMessage("final_answers: " + final_answers.toString());
               for(var i = 0; i < final_answers.length; ++i)
                   if(final_answers[i] == curr_noun) { // winner found
-                      updateScore(i);
+                      updateScore(i + 1);
                   }
-
+              
               Game_State = "Need_Noun";
-              noun_user_index = (noun_user_index++) % users.length;
+              noun_user_index = (noun_user_index+1) % users.length;
               updateNotification("Waiting for Noun from " + users[noun_user_index]);
+              wipeUI();
           }
 
           // inform all senders on the CastMessageBus of the incoming message event
@@ -425,12 +437,7 @@ function updateNotification(notification) {
 
       function all_answered() {
           appendMessage("all_answered? " + final_answers.toString());
-          
-          for(var i = 0; i < users.length; ++i)
-              if(final_answers[i] == null && i != noun_user_index)
-                  return false;
-
-          return true;
+          return final_answers.every(function(answer) { return answer != null; })
       }
 
     </script>
