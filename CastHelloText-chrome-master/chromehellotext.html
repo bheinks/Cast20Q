@@ -97,7 +97,7 @@ td {
 <script type="text/javascript" src="//www.gstatic.com/cv/js/sender/v1/cast_sender.js"></script>
 <script type="text/javascript">
 var applicationID = '1B0198DC';
-var namespace = 'urn:x-cast:com.google.cast.sample.helloworld';
+var namespace = 'urn:x-cast:com.hackmizzou.cast20q';
 var session = null;
 //var nounUser = false;
 //var qUser = false;
@@ -212,8 +212,6 @@ function sendMessage(message) {
   }
   else {
     chrome.cast.requestSession(function(e) {
-        stopApp();
-        initializeCastApi();
         session = e;
         session.sendMessage(namespace, message, onSuccess.bind(this, "Message sent: " + message), onError);
         appendMessage("sessionId: " + session.sessionId);
