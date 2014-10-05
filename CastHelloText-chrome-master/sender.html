@@ -340,6 +340,7 @@ function nicknamePrompt() {
   document.getElementById('wrapper').innerHTML = html;
 }
 function sendNickname() {
+  console.log("Sending Nickname");
   sendMessage("name:"+document.getElementById("input").value);
 }
 
