@@ -159,6 +159,7 @@ function sessionListener(e) {
   session = e;
   session.addUpdateListener(sessionUpdateListener);  
   session.addMessageListener(namespace, receiverMessage);
+  sendMessage("dummy message");
 }
 
 /**
