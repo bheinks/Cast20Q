@@ -403,7 +403,11 @@ function wipeUI() {
               else
               {
                 Game_State = "Need_Final_Answers";
-                updateNotification("Everyone submit Final Answers!");
+                updateNotification("Submit your final Answers!");
+
+                for(var i = 0; i < users.length; ++i)
+                  if(users[i] != users[noun_user_index])
+                    window.messageBus.send(users[i], "waiting_for_final_answer");
 
                 // initialize all to null
                 for(var i = 0; i < users.length; i++)
