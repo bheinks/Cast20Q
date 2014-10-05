@@ -258,6 +258,14 @@ function receiverMessage(namespace, message) {
   {
     nounPrompt();
   }
+  else if (message == "waiting_for_question")
+  {
+    questionPrompt();
+  }
+  else if (message == "waiting_for_answer")
+  {
+    answerPrompt();
+  }
 };
 
 /**
@@ -365,16 +373,24 @@ function sendNoun() {
 
 function questionPrompt() {
   var questionHTML = 
-  '<div class = "prompttd">Enter question:</div></td></tr><tr><td><form method="get" action="JavaScript:update();"><input id="input" class="border" type="text" size="30" onwebkitspeechchange="transcribe(this.value)" x-webkit-speech/>';
+  '<div class = "prompttd">Enter question:</div></td></tr><tr><td><form method="get" action="JavaScript:sendQuestion();"><input id="input" class="border" type="text" size="30" onwebkitspeechchange="transcribe(this.value)" x-webkit-speech/>';
   document.getElementById('wrapper').innerHTML = questionHTML;
+}
+function sendQuestion() {
+  console.log("Sending Question");
+  sendMessage(document.getElementById("input").value);
 }
 
 
 
 function answerPrompt() {
-var answerHTML ='<table><tr><td><div class = "prompttd">Answer questions on casted screen:</div></td></tr><tr><td><div class="button raised yes"><div class="center">Yes</div></div><div class="button raised no"><div class="center">No</div></div><div class="button raised unknown"><div class="center">Unknown</div></div><div class="button raised sometimes"><div class="center">Sometimes</div></div></td></tr></table>';
+var answerHTML ='<table><tr><td><div class = "prompttd">Answer questions on casted screen:</div></td></tr><tr><td><div class="button raised yes" onclick="sendYes()"><div class="center">Yes</div></div><div class="button raised no" onclick="sendNo()"><div class="center">No</div></div><div class="button raised unknown" onclick="sendUnknown()"><div class="center">Unknown</div></div><div class="button raised sometimes" onclick="sendMaybe()"><div class="center">Sometimes</div></div></td></tr></table>';
   document.getElementById('wrapper').innerHTML = answerHTML;
 }
+function sendYes() {sendMessage("1");}
+function sendNo() {sendMessage("2");}
+function sendUnknown() {sendMessage("3");}
+function sendMaybe() {sendMessage("4");}
 
 function waitingPrompt() {
   var writingHTML = '<table><tr><td><div class = "prompttd">Waiting for all players to connect</div></td></tr></table>';
