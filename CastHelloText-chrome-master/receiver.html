@@ -426,6 +426,7 @@ function wipeUI() {
         appendMessage("Requesting noun from " + users[userNum]);
         window.messageBus.send(users[userNum], "Need_Noun");
         updateNotification("Waiting for Noun from " + users[userNum]);
+        wipeUI();
       };
 
       function all_answered() {
