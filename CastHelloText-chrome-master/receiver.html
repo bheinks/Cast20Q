@@ -463,7 +463,7 @@ function wipeUI() {
       function requestNoun(userNum) {
         Game_State = "Need_Noun";
         appendMessage("Requesting noun from " + nicknames[userNum]);
-        window.messageBus.send(users[userNum], "Need_Noun");
+        window.messageBus.send(users[userNum], "waiting_for_noun");
         updateNotification("Waiting for noun from " + nicknames[userNum]);
       };
 
