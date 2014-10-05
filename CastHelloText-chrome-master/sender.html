@@ -340,7 +340,8 @@ function nicknamePrompt() {
   document.getElementById('wrapper').innerHTML = html;
 }
 function sendNickname() {
-  sendMessage("name:"+document.getElementById("input").value);
+  console.log("Sending Nickname");
+  sendMessage("~:"+document.getElementById("input").value);
 }
 
 function nounPrompt() {
