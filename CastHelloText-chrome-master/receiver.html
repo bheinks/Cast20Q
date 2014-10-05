@@ -291,8 +291,8 @@ function wipeUI() {
           // if first sender to connect, assign noun_user_index
           if(window.castReceiverManager.getSenders().length == 1) {
               noun_user_index = 0;
-
-              //Need logic here to push message to first user requesting a noun
+              Game_State = "Waiting_for_Players";
+              updateNotification("Waiting for players...");
           }
 
           appendMessage('users are ' + users.toString());
@@ -332,8 +332,10 @@ function wipeUI() {
           //Add a Question on any message recieved
 
           if(Game_State == "Waiting_for_Players") {
-            if(event.senderId == users[noun_user_index] && event.data == "start_game") {
+            if(event.senderId == users[noun_user_index] && event.data == "start_game")
               requestNoun(0);
+            else if(event.data.startsWith("name:"))
+              addPlayer(event.data.split(':')[1]);
           }
           else if (Game_State == "Need_Noun")
           {
@@ -409,7 +411,7 @@ function wipeUI() {
               
               Game_State = "Need_Noun";
               noun_user_index = (noun_user_index+1) % users.length;
-              updateNotification("Waiting for Noun from " + users[noun_user_index]);
+              updateNotification("Waiting for noun from " + users[noun_user_index]);
               wipeUI();
           }
 
@@ -441,7 +443,7 @@ function wipeUI() {
         Game_State = "Need_Noun";
         appendMessage("Requesting noun from " + users[userNum]);
         window.messageBus.send(users[userNum], "Need_Noun");
-        updateNotification("Waiting for Noun from " + users[userNum]);
+        updateNotification("Waiting for noun from " + users[userNum]);
       };
 
       function all_answered() {
