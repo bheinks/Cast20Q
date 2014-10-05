@@ -177,10 +177,6 @@ function addQ(question) {
   
   if (numQs >= 1 && numQs <= 20) {
     document.getElementById("questions").innerHTML += '<div class="question" id="Q' + numQs + '">'+numQs+'.   '+question+'<div id="Q' + numQs + 'a" class="answer"></div></div>';
-    
-    var rand = Math.floor((Math.random() * 4) + 1);
-    
-    answer(rand);
   }
   if (numQs > 20)
     {
@@ -212,22 +208,22 @@ function Finalanswer(thing) {
 
 function answer(ans)
 {
-    if (ans == 1)
+    if (ans == '1')
       {
         document.getElementById('Q' + (numQs-1)).className += " yes";
         document.getElementById('Q' + (numQs-1) + 'a').innerHTML = "Yes";
       }
-    else if (ans == 2)
+    else if (ans == '2')
       {
         document.getElementById('Q' + (numQs-1)).className += " no";
         document.getElementById('Q' + (numQs-1) + 'a').innerHTML = "No";
       }
-    else if (ans == 3)
+    else if (ans == '3')
       {
         document.getElementById('Q' + (numQs-1)).className += " unknown";
         document.getElementById('Q' + (numQs-1) + 'a').innerHTML = "Unknown";
       }
-    else if (ans == 4)
+    else if (ans == '4')
       {
         document.getElementById('Q' + (numQs-1)).className += " sometimes";
         document.getElementById('Q' + (numQs-1) + 'a').innerHTML = "Sometimes";
@@ -348,7 +344,18 @@ function updateNotification(notification) {
               {
                 user_to_question = (user_to_question++)%users.length;
               }
+              updateNotification("Need answer from " + users[noun_user_index]);
+              Game_State = "Need_Answer";
+            }
+          }
+          else if (Game_State == "Need_Answer")
+          {
+            if(event.senderId == users[noun_user_index])
+            {
+              /*Update question answer here*/
+              answer(event.data);
               updateNotification("Need question from " + users[user_to_question]);
+              Game_State = "Need_Q";
             }
           }
 
