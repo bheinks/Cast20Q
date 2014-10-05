@@ -162,6 +162,10 @@ body {
   background:white;
 }
 
+#welcome {
+  font-size: 50px;
+}
+
 
     </style>
     <title>Cast Hello Text</title>
@@ -247,7 +251,7 @@ function wipeUI() {
 	
   <div id="header">
   <div id="bar"></div>
-  <div id="title">Cast 20 Q's<span id="notification">Waiting for a noun from Player 1</span></div>
+  <div id="title">Cast 20 Q's<span id="notification"></span></div>
 </div>
 <div id="FAB" onclick="addQ()">+</div>
 
@@ -293,10 +297,11 @@ function wipeUI() {
               noun_user_index = 0;
               Game_State = "Waiting_for_Players";
               updateNotification("Waiting for players...");
+              document.getElementById("questions").innerHTML += '<div class="question" id="welcome">Welcome to Cast 20Q</div>';
           }
 
           appendMessage('users are ' + users.toString());
-          addPlayer(window.castReceiverManager.getSender(event.data).id);
+          //addPlayer(window.castReceiverManager.getSender(event.data).id);
         };
         
         // handler for 'senderdisconnected' event
@@ -332,10 +337,10 @@ function wipeUI() {
           //Add a Question on any message recieved
 
           if(Game_State == "Waiting_for_Players") {
-            if(event.senderId == users[noun_user_index] && event.data == "start_game")
-              requestNoun(0);
-            else if(event.data.startsWith("name:"))
+            if(event.data.startsWith("name:"))
               addPlayer(event.data.split(':')[1]);
+            else if(event.senderId == users[noun_user_index] && event.data == "start_game")
+              requestNoun(0);
           }
           else if (Game_State == "Need_Noun")
           {
@@ -417,9 +422,7 @@ function wipeUI() {
 
           // inform all senders on the CastMessageBus of the incoming message event
           // sender message listener will be invoked
-          window.messageBus.send(event.senderId, event.data + "butt");
-          window.messageBus.getCastChannel(event.senderId).send("buttbutt");
-          window.messageBus.broadcast("butts2butt");
+          window.messageBus.send(event.senderId, event.data);
         }
 
         // initialize the CastReceiverManager with an application status message
