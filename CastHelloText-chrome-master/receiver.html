@@ -328,14 +328,14 @@ function wipeUI() {
           //Add a Question on any message recieved
 
           if(Game_State == "Waiting_for_Players") {
-<<<<<<< HEAD
             if(event.data.charAt(0) == '~')) {
               var name = event.data.split(':')[1];
 
               if(users.indexOf(name) < 0) {
-                  addPlayer(.data.split(':')[1]);
+                  addPlayer(name);
                   users.push(event.senderId);
-=======
+                }
+            }
             if(event.data.startsWith("name:"))
             {
               addPlayer(event.data.split(':')[1]);
