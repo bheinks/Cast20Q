@@ -384,7 +384,7 @@ function updateNotification(notification) {
               appendMessage("final_answers: " + final_answers.toString());
               for(var i = 0; i < final_answers.length; ++i)
                   if(final_answers[i] == curr_noun) { // winner found
-                      updateScore(i);
+                      updateScore(i + 1);
                   }
 
               Game_State = "Need_Noun";
