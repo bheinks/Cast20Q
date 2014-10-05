@@ -341,10 +341,14 @@ function wipeUI() {
             if(event.senderId == users[user_to_question])
             {
               addQ(event.data);
+              appendMessage("User to question before inc:" + user_to_question);
               user_to_question = (user_to_question++)%users.length;
+              appendMessage("User to question after inc:" + user_to_question);
               if (user_to_question == noun_user_index)
               {
+
                 user_to_question = (user_to_question++)%users.length;
+                appendMessage("User to question hit noun user:" + user_to_question);
               }
               updateNotification("Need answer from " + users[noun_user_index]);
               Game_State = "Need_Answer";
