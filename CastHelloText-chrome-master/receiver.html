@@ -351,6 +351,7 @@ function updateNotification(notification) {
 
       function requestNoun(userNum) {
         Game_State = "Need_Noun";
+        appendMessage("Requesting noun from " + users[userNum]);
         window.messageBus.send(users[userNum], "Need_Noun");
         updateNotification("Waiting for Noun from " + users[userNum]);
       };
