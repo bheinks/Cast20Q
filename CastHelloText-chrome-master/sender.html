@@ -391,7 +391,7 @@ function sendQuestion() {
 
 function finalAnswerPrompt() {
   var questionHTML = 
-  '<table><tr><td><div class = "prompttd">Enter your Final Answer</div></td></tr><tr><td><form method="get" action="JavaScript:sendQuestion();"><input id="input" class="border" type="text" size="30" onwebkitspeechchange="transcribe(this.value)" x-webkit-speech/></form></td></tr></table>';
+  '<table><tr><td><div class = "prompttd">Enter your final answer</div></td></tr><tr><td><form method="get" action="JavaScript:sendQuestion();"><input id="input" class="border" type="text" size="30" onwebkitspeechchange="transcribe(this.value)" x-webkit-speech/></form></td></tr></table>';
   document.getElementById('wrapper').innerHTML = questionHTML;
 }
 
