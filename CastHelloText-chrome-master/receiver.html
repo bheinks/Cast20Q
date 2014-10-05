@@ -396,7 +396,7 @@ function wipeUI() {
                   if(final_answers[i] == curr_noun) { // winner found
                       updateScore(i + 1);
                   }
-
+              wipeUI();
               Game_State = "Need_Noun";
               noun_user_index = (noun_user_index++) % users.length;
               updateNotification("Waiting for Noun from " + users[noun_user_index]);
@@ -431,7 +431,6 @@ function wipeUI() {
         appendMessage("Requesting noun from " + users[userNum]);
         window.messageBus.send(users[userNum], "Need_Noun");
         updateNotification("Waiting for Noun from " + users[userNum]);
-        wipeUI();
       };
 
       function all_answered() {
