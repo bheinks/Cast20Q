@@ -342,6 +342,7 @@ function wipeUI() {
               addPlayer(event.data.split(':')[1]);
               if (event.senderId == users[noun_user_index])
               {
+                appendMessage("Talking to nounUser: waiting_to_start")
                 window.messageBus.send(users[noun_user_index], "waiting_to_start");
               }
             }
