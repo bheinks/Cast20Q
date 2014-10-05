@@ -193,6 +193,7 @@ function addPlayer(name) {
   numPs++;
   Pscores[numPs] = 0;
   document.getElementById("players").innerHTML += '<div id="P' + numPs + '" class="player">' + name + '<span class="score" id="P' + numPs +'score">' + Pscores[numPs] +'</span></div>';
+  nicknames.push(name);
 }
 
 function activePlayer(playerNum) {
@@ -202,7 +203,7 @@ function activePlayer(playerNum) {
 }
 
 function updateScore(player) {
-  appendMessage("updating score of " + users[player - 1]);
+  appendMessage("updating score of " + nicknames[player - 1]);
   Pscores[player]++;
   document.getElementById('P' + player + 'score').innerHTML = Pscores[player];
 }
@@ -268,6 +269,7 @@ function wipeUI() {
       var user_to_question = 1;
       var noun_user_index = 0;
       var users = [];
+      var nicknames = [];
       var final_answers = [];
       var Game_State = 'Initialized';
 
@@ -331,20 +333,15 @@ function wipeUI() {
             if(event.data.charAt(0) == '~')) {
               var name = event.data.split(':')[1];
 
-              if(users.indexOf(name) < 0) {
+              if(nicknames.indexOf(name) < 0) {
                   addPlayer(name);
                   users.push(event.senderId);
                 }
-            }
-            if(event.data.startsWith("name:"))
-            {
-              addPlayer(event.data.split(':')[1]);
-              if (event.senderId == users[noun_user_index])
-              {
-                appendMessage("Talking to nounUser: waiting_to_start")
-                window.messageBus.send(users[noun_user_index], "waiting_to_start");
->>>>>>> ab5ef5314d3b6abf94a6cd485302ce773c7c08fb
-              }
+                if (event.senderId == users[noun_user_index])
+                {
+                  appendMessage("Talking to nounUser: waiting_to_start_noun")
+                  window.messageBus.send(users[noun_user_index], "waiting_to_start_noun");
+                }
             }
             else if(event.senderId == users[noun_user_index] && event.data == "start_game")
               requestNoun(0);
@@ -374,7 +371,7 @@ function wipeUI() {
                 user_to_question = (user_to_question+1)%users.length;
                 appendMessage("User to question hit noun user:" + user_to_question);
               }
-              updateNotification("Need answer from " + users[noun_user_index]);
+              updateNotification("Need answer from " + nicknames[noun_user_index]);
               Game_State = "Need_Answer";
             }
           }
@@ -386,7 +383,7 @@ function wipeUI() {
               answer(event.data);
               if (numQs < 20)
               {
-                updateNotification("Need question from " + users[user_to_question]);
+                updateNotification("Need question from " + nicknames[user_to_question]);
                 Game_State = "Need_Q";
               }
               else
@@ -423,7 +420,7 @@ function wipeUI() {
               
               Game_State = "Need_Noun";
               noun_user_index = (noun_user_index+1) % users.length;
-              updateNotification("Waiting for noun from " + users[noun_user_index]);
+              updateNotification("Waiting for noun from " + nicknames[noun_user_index]);
               wipeUI();
           }
 
@@ -451,9 +448,9 @@ function wipeUI() {
 
       function requestNoun(userNum) {
         Game_State = "Need_Noun";
-        appendMessage("Requesting noun from " + users[userNum]);
+        appendMessage("Requesting noun from " + nicknames[userNum]);
         window.messageBus.send(users[userNum], "Need_Noun");
-        updateNotification("Waiting for noun from " + users[userNum]);
+        updateNotification("Waiting for noun from " + nicknames[userNum]);
       };
 
       function all_answered() {
