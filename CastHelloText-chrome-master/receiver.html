@@ -264,7 +264,7 @@ function updateNotification(notification) {
 
     
       var curr_noun = '';
-      var user_to_question = 0;
+      var user_to_question = 1;
       var noun_user_index, users = [], count = 0;
       var Game_State = 'Initialized';
 
@@ -333,6 +333,7 @@ function updateNotification(notification) {
             if(event.id == users[noun_user_index])
             {
               curr_noun = event.data;
+              appendMessage('Received noun: ' + curr_noun)
               Game_State = "Need_Q";
               updateNotification("Need question from " + users[user_to_question]);
             }
