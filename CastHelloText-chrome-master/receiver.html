@@ -293,7 +293,6 @@ function wipeUI() {
               noun_user_index = 0;
 
               //Need logic here to push message to first user requesting a noun
-              requestNoun(0);
           }
 
           appendMessage('users are ' + users.toString());
@@ -331,7 +330,12 @@ function wipeUI() {
           displayText(event.data);
 
           //Add a Question on any message recieved
-          if (Game_State == "Need_Noun")
+
+          if(Game_State == "Waiting_for_Players") {
+            if(event.senderId == users[noun_user_index] && event.data == "start_game") {
+              requestNoun(0);
+          }
+          else if (Game_State == "Need_Noun")
           {
             if(event.senderId == users[noun_user_index])
             {
