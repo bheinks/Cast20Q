@@ -261,14 +261,15 @@ function updateNotification(notification) {
 
     <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
     <script type="text/javascript">
-    var curr_noun = '';
-    var user_to_question = 0;
+
+    
+      var curr_noun = '';
+      var user_to_question = 0;
+      var noun_user_index, users = [], count = 0;
+      var Game_State = 'Initialized';
 
       window.onload = function() {
-        var noun_user_index, users = [], count = 0;
-        var Game_State = 'Initialized';
         updateNotification("Initializing...");
-
         cast.receiver.logger.setLevelValue(0);
         window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
         appendMessage('Starting Receiver Manager');
@@ -376,6 +377,7 @@ function updateNotification(notification) {
 
       function requestNoun(userNum) {
         Game_State = "Need_Noun";
+        appendMessage("Requesting noun from " + users[userNum]);
         window.messageBus.send(users[userNum], "Need_Noun");
         updateNotification("Waiting for Noun from " + users[userNum]);
       };
