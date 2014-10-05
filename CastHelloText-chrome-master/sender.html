@@ -1,0 +1,373 @@
+<!--
+Copyright (C) 2014 Google Inc. All Rights Reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<!DOCTYPE html>
+<html>
+<head>
+<title>Cast 20Q</title>
+<style type="text/css">
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,700,500italic,900,700italic,900italic);
+#wrapper {
+  height: 80%;
+  width: 80%;
+  margin:  0 auto;
+  padding: 0;
+  border: 0;
+  text-align: center;
+}
+
+* {
+  font-family: 'Roboto', sans-serif;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+table {
+  margin: 0 auto;
+}
+#header {
+  position:relative;
+  z-index:2;
+  display:block;
+  width:100%;
+  margin:0 auto;
+  padding:0;
+  height:80px;
+}
+
+#bar {
+  display:block;
+  margin:0;
+  height:24px;
+  background:#039be5;
+  position:relative;
+}
+
+#title {
+  background:#03a9f4;
+  font-size:36px;
+  padding:15px;
+  padding-left:10%;
+  font-weight:500;
+  color:white;
+  text-shadow: 0px 1px 1px;
+}
+
+#wrapper td {
+  padding-top: 50px;
+  vertical-align: middle;
+  text-align: center;
+}
+input {
+  font-size: 30px;
+  font-weight: 550;
+  text-indent: 15px;
+}
+
+input, textarea{
+  background-color: #FAFAFA
+}
+
+.buttonsel{
+  padding: 30px 25px;
+
+}
+
+.prompttd{
+  font-size: 36pt;
+  font-weight: 300;
+  text-shadow: 0px 0px 1px;
+
+}
+
+.button {
+  display: inline-block;
+  position: relative;
+  width: 120px;
+  height: 32px;
+  line-height: 32px;
+  border-radius: 2px;
+  font-size: 0.9em;
+  font-weight: 600;
+  background-color: #fff;
+  color: #646464;
+}
+    
+.button > paper-ripple {
+  border-radius: 2px;
+  overflow: hidden;
+}
+ 
+.button.yes {
+background:#c5e1a5;}
+
+.button.no {
+  background:#ffccbc;
+}
+    
+.button.unknown {
+  background:#D8D8DC;
+}
+  
+.button.sometimes {
+  background-color: #ffe082;
+}
+    
+.button.raised {
+  transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition-delay: 0.2s;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+}
+    
+.button.raised:active {
+  box-shadow: 0 8px 17px 0;       
+  rgba(0, 0, 0, 0.2);
+  transition-delay: 0s;
+}
+  
+.center {
+  text-align: center;
+  text-align-vertical: center;
+}
+
+.label {
+  padding: 0 16px;
+}
+
+.border {
+  border: 1px solid #fff;
+  box-shadow:0 1px 2px #aaa;
+  border-radius: 2px;
+}
+
+.border:focus { 
+  outline: 0;
+  box-shadow:1px 2px 3px #aaa;
+}
+
+</style>
+
+<script type="text/javascript" src="//www.gstatic.com/cv/js/sender/v1/cast_sender.js"></script>
+<script type="text/javascript">
+var applicationID = '1B0198DC';
+var namespace = 'urn:x-cast:com.hackmizzou.cast20q';
+var session = null;
+
+/**
+ * Call initialization for Cast
+ */
+if (!chrome.cast || !chrome.cast.isAvailable) {
+  setTimeout(initializeCastApi, 1000);
+}
+
+/**
+ * initialization
+ */
+function initializeCastApi() {
+  appendMessage('requesting session');
+  var sessionRequest = new chrome.cast.SessionRequest(applicationID);
+  var apiConfig = new chrome.cast.ApiConfig(sessionRequest,
+    sessionListener,
+    receiverListener);
+  chrome.cast.initialize(apiConfig, onInitSuccess, onError);
+};
+
+/**
+ * initialization success callback
+ */
+function onInitSuccess() {
+  appendMessage("onInitSuccess");
+}
+
+/**
+ * initialization error callback
+ */
+function onError(message) {
+  appendMessage("onError: "+JSON.stringify(message));
+}
+
+/**
+ * generic success callback
+ */
+function onSuccess(message) {
+  appendMessage("onSuccess: "+message);
+}
+
+/**
+ * callback on success for stopping app
+ */
+function onStopAppSuccess() {
+  appendMessage('onStopAppSuccess');
+}
+
+/**
+ * session listener during initialization
+ */
+function sessionListener(e) {
+  appendMessage('New session ID:' + e.sessionId);
+  session = e;
+  session.addUpdateListener(sessionUpdateListener);  
+  session.addMessageListener(namespace, receiverMessage);
+}
+
+/**
+ * listener for session updates
+ */
+function sessionUpdateListener(isAlive) {
+  var message = isAlive ? 'Session Updated' : 'Session Removed';
+  message += ': ' + session.sessionId;
+  appendMessage(message);
+  if (!isAlive) {
+    session = null;
+  }
+};
+
+/**
+ * utility function to log messages from the receiver
+ * @param {string} namespace The namespace of the message
+ * @param {string} message A message string
+ */
+function receiverMessage(namespace, message) {
+  appendMessage("receiverMessage: "+namespace+", "+message);
+};
+
+/**
+ * receiver listener during initialization
+ */
+function receiverListener(e) {
+  if( e === 'available' ) {
+    appendMessage("receiver found");
+  }
+  else {
+    appendMessage("receiver list empty");
+  }
+}
+
+/**
+ * stop app/session
+ */
+function stopApp() {
+  session.stop(onStopAppSuccess, onError);
+}
+
+
+/**
+ * send a message to the receiver using the custom namespace
+ * receiver CastMessageBus message handler will be invoked
+ * @param {string} message A message string
+ */
+function sendMessage(message) {
+  if (session!=null) {
+    session.sendMessage(namespace, message, onSuccess.bind(this, "Message sent: " + message), onError);
+  }
+  else {
+    chrome.cast.requestSession(function(e) {
+        session = e;
+        session.sendMessage(namespace, message, onSuccess.bind(this, "Message sent: " + message), onError);
+        appendMessage("sessionId: " + session.sessionId);
+      }, onError);
+  }
+}
+
+/**
+ * append message to debug message window
+ * @param {string} message A message string
+ */
+function appendMessage(message) {
+  console.log(message);
+};
+
+/**
+ * utility function to handle text typed in by user in the input field
+ */
+function update() {
+  sendMessage(document.getElementById("input").value);
+}
+
+/**
+ * handler for the transcribed text from the speech input
+ * @param {string} words A transcibed speech string
+ */
+function transcribe(words) {
+  sendMessage(words);
+}
+
+</script>
+<div id="header">
+<div id="bar"></div>
+<div id="title"> Cast 20 Qs </div>
+</div>
+
+<body> 
+<div id='wrapper'></div>
+</body>
+    <table id="wrapper">
+      <tr>
+        <td>
+          <div class = "prompttd">
+            Enter your question:
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <form method="get" action="JavaScript:update();">
+            <input id="input" class="border" type="text" size="30" onwebkitspeechchange="transcribe(this.value)" x-webkit-speech/>
+          </form>
+        </td>
+      </tr>
+      </table>
+<script>
+
+function nounPrompt() {
+  var nounHTML = 
+  '<table><tr><td><div class = "prompttd">Enter noun for other players to guess:</div></td></tr><tr><td><form method="get" action="JavaScript:update();"><input id="input" class="border" type="text" size="30"onwebkitspeechchange="transcribe(this.value)" x-webkit-speech/></form></td></tr></table>';
+  document.getElementById('wrapper').innerHTML = nounHTML;
+}
+
+function questionPrompt() {
+  var questionHTML = 
+  '<div class = "prompttd">Enter question:</div></td></tr><tr><td><form method="get" action="JavaScript:update();"><input id="input" class="border" type="text" size="30" onwebkitspeechchange="transcribe(this.value)" x-webkit-speech/>';
+  document.getElementById('wrapper').innerHTML = questionHTML;
+}
+
+
+
+function answerPrompt() {
+var answerHTML ='<table><tr><td><div class = "prompttd">Answer questions on casted screen:</div></td></tr><tr><td><div class="button raised yes"><div class="center">Yes</div></div><div class="button raised no"><div class="center">No</div></div><div class="button raised unknown"><div class="center">Unknown</div></div><div class="button raised sometimes"><div class="center">Sometimes</div></div></td></tr></table>';
+  document.getElementById('wrapper').innerHTML = answerHTML;
+}
+
+
+
+function waitingPrompt() {
+  var writingHTML =
+      '<table><tr><td><div class = "prompttd">Waiting for next turn.</div></td></tr></table>';
+  document.getElementById('wrapper').innerHTML = writingHTML;
+}
+
+ /* <!-- Debbugging output -->
+  <div style="margin:10px; postion: absolute; ">
+    <textarea rows="20" cols="70" id="debugmessage">
+    </textarea>
+  </div>
+document.getElementById("input").focus();*/
+
+
+</script>
+</head>
+</html>
