@@ -342,6 +342,11 @@ function wipeUI() {
                   appendMessage("Talking to nounUser: waiting_to_start_noun")
                   window.messageBus.send(users[noun_user_index], "waiting_to_start_noun");
                 }
+                else 
+                {
+                  appendMessage("Talking to Player: waiting_to_start_noun")
+                  window.messageBus.send(event.senderId, "waiting_to_start");
+                }
             }
             else if(event.senderId == users[noun_user_index] && event.data == "start_game")
               requestNoun(0);
