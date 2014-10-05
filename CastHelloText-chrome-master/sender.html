@@ -222,6 +222,8 @@ function sessionListener(e) {
   session = e;
   session.addUpdateListener(sessionUpdateListener);  
   session.addMessageListener(namespace, receiverMessage);
+
+  nicknamePrompt();
 }
 
 /**
@@ -243,6 +245,11 @@ function sessionUpdateListener(isAlive) {
  */
 function receiverMessage(namespace, message) {
   appendMessage("receiverMessage: "+namespace+", "+message);
+
+  if (message == "waiting_to_start")
+  {
+    startGamePrompt();
+  }
 };
 
 /**
@@ -313,29 +320,32 @@ function transcribe(words) {
 </div>
 
 <body> 
-<div id='wrapper'></div>
-</body>
-    <table id="wrapper">
+<div id='wrapper'>
+<table>
       <tr>
         <td>
           <div class = "prompttd">
-            Enter your question:
+            Please connect to the Chromecast using the Chrome extension
           </div>
         </td>
       </tr>
-      <tr>
-        <td>
-          <form method="get" action="JavaScript:update();">
-            <input id="input" class="border" type="text" size="30" onwebkitspeechchange="transcribe(this.value)" x-webkit-speech/>
-          </form>
-        </td>
-      </tr>
       </table>
+</div>
+</body>
+    
 <script>
+
+function nicknamePrompt() {
+  var html = '<table><tr><td><div class = "prompttd">Enter a nickname for yourself: </div></td></tr><tr><td><form method="get" action="JavaScript:sendNickname();"><input id="input" class="border" type="text" size="30" onwebkitspeechchange="transcribe(this.value)" x-webkit-speech/></form></td></tr></table>';
+  document.getElementById('wrapper').innerHTML = html;
+}
+function sendNickname() {
+  sendMessage("name:"+document.getElementById("input").value);
+}
 
 function nounPrompt() {
   var nounHTML = 
-  '<table><tr><td><div class = "prompttd">Enter noun for other players to guess:</div></td></tr><tr><td><form method="get" action="JavaScript:update();"><input id="input" class="border" type="text" size="30"onwebkitspeechchange="transcribe(this.value)" x-webkit-speech/></form></td></tr></table>';
+  '<table><tr><td><div class = "prompttd">Enter noun for other players to guess:</div></td></tr><tr><td><form method="get" action="JavaScript:update();"><input id="input" class="border" type="text" size="30" onwebkitspeechchange="transcribe(this.value)" x-webkit-speech/></form></td></tr></table>';
   document.getElementById('wrapper').innerHTML = nounHTML;
 }
 
@@ -352,13 +362,17 @@ var answerHTML ='<table><tr><td><div class = "prompttd">Answer questions on cast
   document.getElementById('wrapper').innerHTML = answerHTML;
 }
 
-
-
 function waitingPrompt() {
-  var writingHTML =
-      '<table><tr><td><div class = "prompttd">Waiting for next turn.</div></td></tr></table>';
+  var writingHTML = '<table><tr><td><div class = "prompttd">Waiting for all players to connect</div></td></tr></table>';
   document.getElementById('wrapper').innerHTML = writingHTML;
 }
+
+function startGamePrompt() {
+  var html = '<table><tr>Press this button when all players have connected</tr><tr><div style="display:inline-block; padding:25px 50px; border-radius:2px; background:#b3e5fc; cursor:pointer;" onclick="startGame()"}>Start Game</div></tr></table>';
+
+  document.getElementById('wrapper').innerHTML = html;
+}
+function startGame() {sendMessage("start_game");}
 
  /* <!-- Debbugging output -->
   <div style="margin:10px; postion: absolute; ">
