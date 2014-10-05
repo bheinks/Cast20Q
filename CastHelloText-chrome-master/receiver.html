@@ -237,6 +237,7 @@ function updateNotification(notification) {
 function wipeUI() {
   document.getElementById("questions").innerHTML = "";
   numQs = 0;
+  user_to_question = (noun_user_index +1)%users.length;
 }
 
 
@@ -396,10 +397,11 @@ function wipeUI() {
                   if(final_answers[i] == curr_noun) { // winner found
                       updateScore(i + 1);
                   }
-              wipeUI();
+              
               Game_State = "Need_Noun";
               noun_user_index = (noun_user_index+1) % users.length;
               updateNotification("Waiting for Noun from " + users[noun_user_index]);
+              wipeUI();
           }
 
           // inform all senders on the CastMessageBus of the incoming message event
