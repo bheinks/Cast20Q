@@ -206,8 +206,7 @@ function Finalanswer(thing) {
   document.getElementById("questions").innerHTML += '<div class="Finalanswer">' + thing + '</div>';
 }
 
-function answer(ans)
-{
+function answer(ans) {
     if (ans == '1')
       {
         document.getElementById('Q' + (numQs)).className += " yes";
@@ -252,16 +251,12 @@ function updateNotification(notification) {
 
 <div id="players">
 </div>
-
-
-
     <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
     <script type="text/javascript">
-
-    
       var curr_noun = '';
       var user_to_question = 1;
       var noun_user_index, users = [], count = 0;
+      var final_answers = [];
       var Game_State = 'Initialized';
 
       window.onload = function() {
@@ -328,7 +323,7 @@ function updateNotification(notification) {
           {
             if(event.senderId == users[noun_user_index])
             {
-              curr_noun = event.data;
+              curr_noun = event.data.replace(/ /g,'').toLowerCase();
               appendMessage('Received noun: ' + curr_noun)
               Game_State = "Need_Q";
               updateNotification("Need question from " + users[user_to_question]);
@@ -363,10 +358,28 @@ function updateNotification(notification) {
               {
                 Game_State = "Need_Final_Answer";
                 updateNotification("Everyone submit Final Answers!!");
+
+                for(int i = 0; i < users.length; i++)
+                    final_answers[i] = null;
               }
             }
           }
+          else if(Game_State == "Need_Final_Answer") {
+              for(int = 0; i < users.length; ++i)
+                  // if user hasn't already answered
+                  if((users[i] == event.senderId) && final_answers[i] == null) 
+                      final_answers[i] = event.data.replace(/ /g,'').toLowerCase();
 
+              if(final_answers.every(function(answer) { return answer != null; }))
+                  Game_State = "Answers_Submitted";
+          }
+          else if(Game_State == "Answers_Submitted") {
+              for(int i = 0; i < final_answers; ++i)
+                  if(final_answers[i] == curr_noun) { // winner found
+                      updateScore(users[i]);
+                      break;
+                  }
+          }
 
           // inform all senders on the CastMessageBus of the incoming message event
           // sender message listener will be invoked
