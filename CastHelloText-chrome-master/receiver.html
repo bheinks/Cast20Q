@@ -375,9 +375,7 @@ function wipeUI() {
             if(event.senderId == users[user_to_question])
             {
               addQ(event.data);
-              appendMessage("User to question before inc:" + user_to_question);
               user_to_question = (user_to_question+1)%users.length;
-              appendMessage("User to question after inc:" + user_to_question);
               if (user_to_question == noun_user_index)
               {
 
@@ -438,6 +436,13 @@ function wipeUI() {
               wipeUI();
               document.getElementById("questions").innerHTML += '<div class="question" id="welcome">Answer: ' + curr_noun + '</div>';
 
+              user_to_question = (user_to_question+1)%users.length;
+              if (user_to_question == noun_user_index)
+              {
+
+                user_to_question = (user_to_question+1)%users.length;
+                appendMessage("User to question hit noun user:" + user_to_question);
+              }
               Game_State = "Need_Noun";
               noun_user_index = (noun_user_index+1) % users.length;
               updateNotification("Waiting for noun from " + nicknames[noun_user_index]);
