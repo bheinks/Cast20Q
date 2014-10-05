@@ -222,6 +222,8 @@ function sessionListener(e) {
   session = e;
   session.addUpdateListener(sessionUpdateListener);  
   session.addMessageListener(namespace, receiverMessage);
+
+  nicknamePrompt();
 }
 
 /**
@@ -243,6 +245,7 @@ function sessionUpdateListener(isAlive) {
  */
 function receiverMessage(namespace, message) {
   appendMessage("receiverMessage: "+namespace+", "+message);
+
   if (message == "waiting_to_start")
   {
     startGamePrompt();
@@ -332,9 +335,17 @@ function transcribe(words) {
     
 <script>
 
+function nicknamePrompt() {
+  var html = '<table><tr><td><div class = "prompttd">Enter a nickname for yourself: </div></td></tr><tr><td><form method="get" action="JavaScript:sendNickname();"><input id="input" class="border" type="text" size="30" onwebkitspeechchange="transcribe(this.value)" x-webkit-speech/></form></td></tr></table>';
+  document.getElementById('wrapper').innerHTML = html;
+}
+function sendNickname() {
+  sendMessage("name:"+document.getElementById("input").value);
+}
+
 function nounPrompt() {
   var nounHTML = 
-  '<table><tr><td><div class = "prompttd">Enter noun for other players to guess:</div></td></tr><tr>Dont press enter until all players have connected</tr><tr><td><form method="get" action="JavaScript:update();"><input id="input" class="border" type="text" size="30"onwebkitspeechchange="transcribe(this.value)" x-webkit-speech/></form></td></tr></table>';
+  '<table><tr><td><div class = "prompttd">Enter noun for other players to guess:</div></td></tr><tr><td><form method="get" action="JavaScript:update();"><input id="input" class="border" type="text" size="30" onwebkitspeechchange="transcribe(this.value)" x-webkit-speech/></form></td></tr></table>';
   document.getElementById('wrapper').innerHTML = nounHTML;
 }
 
@@ -357,7 +368,9 @@ function waitingPrompt() {
 }
 
 function startGamePrompt() {
-  var html = '<table><tr>Press this button when all players have connected</tr><tr><div style="display:inline-block; padding:25px 50px; border-radius:2px; background:#b3e5fc; cursor:pointer;" onclick="startGame()"}>Start Game</div></tr></table>'
+  var html = '<table><tr>Press this button when all players have connected</tr><tr><div style="display:inline-block; padding:25px 50px; border-radius:2px; background:#b3e5fc; cursor:pointer;" onclick="startGame()"}>Start Game</div></tr></table>';
+
+  document.getElementById('wrapper').innerHTML = html;
 }
 function startGame() {sendMessage("start_game");}
 
