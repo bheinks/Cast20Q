@@ -58,9 +58,8 @@ html, body, #wrapper {
   padding-left:10%;
   font-weight:500;
   color:white;
-  text-shadow: 1px 1px 2px;
+  text-shadow: 0px 1px 1px;
 }
-
 
 #wrapper td {
   padding-top: 50px;
@@ -85,7 +84,7 @@ input, textarea{
 .prompttd{
   font-size: 36pt;
   font-weight: 300;
-  text-shadow: 0px 1px 2px;
+  text-shadow: 0px 0px 1px;
 
 }
 
@@ -143,7 +142,6 @@ background:#c5e1a5;}
   padding: 0 16px;
 }
 
-
 .border {
   border: 1px solid #fff;
   box-shadow:0 1px 2px #aaa;
@@ -160,7 +158,7 @@ background:#c5e1a5;}
 <script type="text/javascript" src="//www.gstatic.com/cv/js/sender/v1/cast_sender.js"></script>
 <script type="text/javascript">
 var applicationID = '1B0198DC';
-var namespace = 'urn:x-cast:com.hackmizzou.cast20q';
+var namespace = 'urn:x-cast:com.google.cast.sample.helloworld';
 var session = null;
 
 /**
@@ -174,11 +172,11 @@ if (!chrome.cast || !chrome.cast.isAvailable) {
  * initialization
  */
 function initializeCastApi() {
+  appendMessage('requesting session');
   var sessionRequest = new chrome.cast.SessionRequest(applicationID);
   var apiConfig = new chrome.cast.ApiConfig(sessionRequest,
     sessionListener,
     receiverListener);
-
   chrome.cast.initialize(apiConfig, onInitSuccess, onError);
 };
 
@@ -218,7 +216,6 @@ function sessionListener(e) {
   session = e;
   session.addUpdateListener(sessionUpdateListener);  
   session.addMessageListener(namespace, receiverMessage);
-  //sendMessage("dummy message");
 }
 
 /**
@@ -276,7 +273,6 @@ function sendMessage(message) {
         session = e;
         session.sendMessage(namespace, message, onSuccess.bind(this, "Message sent: " + message), onError);
         appendMessage("sessionId: " + session.sessionId);
-        appendMessage("are you even listening?");
       }, onError);
   }
 }
@@ -287,8 +283,6 @@ function sendMessage(message) {
  */
 function appendMessage(message) {
   console.log(message);
-  var dw = document.getElementById("debugmessage");
-  dw.innerHTML += '\n' + JSON.stringify(message);
 };
 
 /**
@@ -305,10 +299,20 @@ function update() {
 function transcribe(words) {
   sendMessage(words);
 }
-</script>
 
-<body>
+</script>
 <div id="header">
+<div id="bar"></div>
+<div id="title"> Cast 20 Qs </div>
+</div>
+
+<body id='wrapper'>
+</body>
+
+
+
+
+<!-- <div id="header">
   <div id="bar"></div>
   <div id="title"> Cast 20 Qs </div>
     <table id="wrapper">
@@ -326,17 +330,12 @@ function transcribe(words) {
           </form>
         </td>
       </tr>
-      </table>
-    </div>
-
+      </table> -->
 <script>
 
 function nounPrompt() {
   var nounHTML = 
-  '<div id="header">
-    <div id="bar"></div>
-    <div id="title"> Cast 20 Qs </div>
-      <table id="wrapper">
+  '<table id="wrapper">
         <tr>
           <td>
             <div class = "prompttd">
@@ -351,16 +350,13 @@ function nounPrompt() {
             </form>
           </td>
         </tr>
-        </table>
-    </div>';
-  document.getElementsByTag('body').innerHTML = HTML;
+        </table>';
+  document.getElementByID('wrapper') = nounHTML;
 }
 
 function questionPrompt() {
   var questionHTML = 
-  '<div id="header">
-    <div id="bar"></div>
-    <div id="title"> Cast 20 Qs </div>
+  '
     <table id="wrapper">
       <tr>
         <td>
@@ -376,17 +372,14 @@ function questionPrompt() {
           </form>
         </td>
       </tr>
-    </table>
-  </div>';
-  document.getElementsByTag('body').innerHTML = HTML;
-
+    </table>';
+  document.getElementByTag('wrapper') = questionHTML;
 }
 
+
+
 function answerPrompt() {
-  var =
-    '<div id="header">
-    <div id="bar"></div>
-    <div id="title"> Cast 20 Qs </div>
+var answerHTML ='
       <table id="wrapper">
         <tr>
           <td>
@@ -411,17 +404,15 @@ function answerPrompt() {
             </div>
           </td>
         </tr>
-      </table>
-    </div>';
-  document.getElementsByTag('body').innerHTML = HTML;
+      </table>';
+  document.getElementByTag('wrapper') = answerHTML;
 }
 
-function waitingPrompt {
-  var = '
-    <div id="header">
-    <div id="bar"></div>
-    <div id="title"> Cast 20 Qs </div>
-      <table id="wrapper">
+
+
+function waitingPrompt() {
+  var writingHTML =
+      '<table id="wrapper">
         <tr>
           <td>
             <div class = "prompttd">
@@ -429,11 +420,9 @@ function waitingPrompt {
             </div>
           </td>
         </tr>
-      </table>  
-    </div>';
-  document.getElementsByTag('body').innerHTML = HTML;
+      </table>';
+  document.getElementByTag('wrapper') = writingHTML;
 }
-
 
  /* <!-- Debbugging output -->
   <div style="margin:10px; postion: absolute; ">
@@ -442,8 +431,11 @@ function waitingPrompt {
   </div>
 document.getElementById("input").focus();*/
 
+setTimeout(nounPrompt, 2000);
+setTimeout(waitingPrompt, 2000);
+setTimeout(answerPrompt, 2000);
+setTimeout(questionPrompt, 2000);
+
 </script>
 </head>
-
-</body>
 </html>

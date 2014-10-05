@@ -198,6 +198,7 @@ function activePlayer(playerNum) {
 }
 
 function updateScore(player) {
+  appendMessage("updating score of " + users[player]);
   Pscores[player]++;
   document.getElementById('P' + player + 'score').innerHTML = Pscores[player];
 }
@@ -323,7 +324,8 @@ function updateNotification(notification) {
           {
             if(event.senderId == users[noun_user_index])
             {
-              curr_noun = event.data.replace(/ /g,'').toLowerCase();
+              //curr_noun = event.data.replace(/ /g,'').toLowerCase();
+              curr_noun = event.data;
               appendMessage('Received noun: ' + curr_noun)
               Game_State = "Need_Q";
               updateNotification("Need question from " + users[user_to_question]);
@@ -369,7 +371,8 @@ function updateNotification(notification) {
               for(var i = 0; i < users.length; ++i)
                   // if user hasn't already answered
                   if((users[i] == event.senderId) && final_answers[i] == null) {
-                      final_answers[i] = event.data.replace(/ /g,'').toLowerCase();
+                      //final_answers[i] = event.data.replace(/ /g,'').toLowerCase();
+                      final_answers[i] = event.data;
                       appendMessage(event.senderId + ' answered ' + final_answers[i]);
                   }
 
@@ -378,11 +381,15 @@ function updateNotification(notification) {
           }
 
           else if(Game_State == "Answers_Submitted") {
-              for(var i = 0; i < final_answers; ++i)
+              appendMessage("final_answers: " + final_answers.toString());
+              for(var i = 0; i < final_answers.length; ++i)
                   if(final_answers[i] == curr_noun) { // winner found
                       updateScore(i);
-                      break;
                   }
+
+              Game_State = "Need_Noun";
+              noun_user_index = (noun_user_index++) % users.length;
+              updateNotification("Waiting for Noun from " + users[noun_user_index]);
           }
 
           // inform all senders on the CastMessageBus of the incoming message event
@@ -417,6 +424,8 @@ function updateNotification(notification) {
       };
 
       function all_answered() {
+          appendMessage("all_answered? " + final_answers.toString());
+          
           for(var i = 0; i < users.length; ++i)
               if(final_answers[i] == null && i != noun_user_index)
                   return false;
