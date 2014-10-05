@@ -391,7 +391,7 @@ function wipeUI() {
                   Game_State = "Answers_Submitted";
           }
 
-          else if(Game_State == "Answers_Submitted") {
+          if(Game_State == "Answers_Submitted") {
               appendMessage("final_answers: " + final_answers.toString());
               for(var i = 0; i < final_answers.length; ++i)
                   if(final_answers[i] == curr_noun) { // winner found
