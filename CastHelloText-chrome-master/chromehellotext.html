@@ -82,10 +82,8 @@ input, textarea{
   background-color: #FAFAFA
 }
 
-.buttontd{
+.buttonsel{
   padding: 30px 25px;
-  border-collapse: separate;
-  border-spacing: 50px;
 
 }
 
@@ -317,13 +315,6 @@ function transcribe(words) {
 <body> 
 <div id='wrapper'></div>
 </body>
-
-
-
-
-<!-- <div id="header">
-  <div id="bar"></div>
-  <div id="title"> Cast 20 Qs </div>
     <table id="wrapper">
       <tr>
         <td>
@@ -339,25 +330,25 @@ function transcribe(words) {
           </form>
         </td>
       </tr>
-      </table> -->
+      </table>
 <script>
 
 function nounPrompt() {
   var nounHTML = 
-  '<table><tr><td><div class = "prompttd">Enter a noun for the other players to guess:</div></td></tr><tr><td><form method="get" action="JavaScript:update();"><input id="input" class="border" type="text" size="30"onwebkitspeechchange="transcribe(this.value)" x-webkit-speech/></form></td></tr></table>';
+  '<table><tr><td><div class = "prompttd">Enter noun for other players to guess:</div></td></tr><tr><td><form method="get" action="JavaScript:update();"><input id="input" class="border" type="text" size="30"onwebkitspeechchange="transcribe(this.value)" x-webkit-speech/></form></td></tr></table>';
   document.getElementById('wrapper').innerHTML = nounHTML;
 }
 
 function questionPrompt() {
   var questionHTML = 
-  '<table><tr><td><div class = "prompttd">Enter your question:</div></td></tr><tr><td><form method="get" action="JavaScript:update();"><input id="input" class="border" type="text" size="30" onwebkitspeechchange="transcribe(this.value)" x-webkit-speech/></form></td></tr></table>';
+  '<div class = "prompttd">Enter question:</div></td></tr><tr><td><form method="get" action="JavaScript:update();"><input id="input" class="border" type="text" size="30" onwebkitspeechchange="transcribe(this.value)" x-webkit-speech/>';
   document.getElementById('wrapper').innerHTML = questionHTML;
 }
 
 
 
 function answerPrompt() {
-var answerHTML ='<table><tr><td><div class = "prompttd">Answer the questions on the screen:</div></td></tr><tr><td><div class="button raised yes"><div class="center">Yes</div></div><div class="button raised no"><div class="center">No</div></div><div class="button raised unknown"><div class="center">Unknown</div></div><div class="button raised sometimes"><div class="center">Sometimes</div></div></td></tr></table>';
+var answerHTML ='<table><tr><td><div class = "prompttd">Answer questions on casted screen:</div></td></tr><tr><td><div class="button raised yes"><div class="center">Yes</div></div><div class="button raised no"><div class="center">No</div></div><div class="button raised unknown"><div class="center">Unknown</div></div><div class="button raised sometimes"><div class="center">Sometimes</div></div></td></tr></table>';
   document.getElementById('wrapper').innerHTML = answerHTML;
 }
 
@@ -376,10 +367,6 @@ function waitingPrompt() {
   </div>
 document.getElementById("input").focus();*/
 
-setTimeout(nounPrompt, 2000);
-setTimeout(waitingPrompt, 4080);
-setTimeout(answerPrompt, 8800);
-setTimeout(questionPrompt, 6000);
 
 </script>
 </head>
