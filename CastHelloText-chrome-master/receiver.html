@@ -422,6 +422,8 @@ function updateNotification(notification) {
       };
 
       function all_answered() {
+          appendMessage("all_answered? " + final_answers.toString());
+          
           for(var i = 0; i < users.length; ++i)
               if(final_answers[i] == null && i != noun_user_index)
                   return false;
