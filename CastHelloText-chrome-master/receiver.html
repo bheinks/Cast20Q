@@ -168,7 +168,7 @@ body {
     <script>
     var numQs = 0;
 var numPs = 0;
-var activeP = 1;
+var activeP = '';
 var Pscores = [0];
 
 function addQ(question) {
@@ -191,10 +191,10 @@ function addPlayer(name) {
   document.getElementById("players").innerHTML += '<div id="P' + numPs + '" class="player">' + name + '<span class="score" id="P' + numPs +'score">' + Pscores[numPs] +'</span></div>';
 }
 
-function activePlayer(number) {
-  document.getElementById('P' + number).className += ' active';
+function activePlayer(playerNum) {
+  document.getElementById('P' + playerNum).className += ' active';
   document.getElementById('P' + activeP).className = 'player';
-  activeP = number;
+  activeP = senderId;
 }
 
 function updateScore(player) {
@@ -261,7 +261,7 @@ function updateNotification(notification) {
     
       var curr_noun = '';
       var user_to_question = 1;
-      var noun_user_index, users = [], count = 0;
+      var noun_user_index, users = [];
       var Game_State = 'Initialized';
 
       window.onload = function() {
@@ -365,6 +365,10 @@ function updateNotification(notification) {
                 updateNotification("Everyone submit Final Answers!!");
               }
             }
+          }
+          else if (Game_State == "Need_Final_Answer")
+          {
+
           }
 
 
