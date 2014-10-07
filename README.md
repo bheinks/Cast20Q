@@ -9,6 +9,3 @@ Our submission for HackRolla 2014, an implementation of 20 questions for the Chr
 ## Setup Instructions
 * Navigate to https://rawgit.com/bradmarkshaw/HackMizzou2014/master/CastHelloText-chrome-master/sender.html in Chrome
 * Cast and play
-
-## License
-See LICENSE
