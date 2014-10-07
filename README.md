@@ -7,5 +7,5 @@ Our submission for HackRolla 2014, an implementation of 20 questions for the Chr
 * Google Cast Extension: https://chrome.google.com/webstore/detail/google-cast/boadgeojelhgndaghljhdicfkmllpafd
 
 ## Setup Instructions
-* Navigate to https://rawgit.com/bheinks/HackMizzou2014/master/sender.html in Chrome
+* Navigate to https://rawgit.com/bheinks/Cast20Q/master/sender.html in Chrome
 * Cast and play
